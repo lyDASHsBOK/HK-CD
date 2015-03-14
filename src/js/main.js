@@ -22,7 +22,7 @@ function start() {
     //update title
     document.head.getElementsByTagName('title')[0].innerHTML = CONST.APP.TITLE;
 
-    rootStretcher = new Stretcher(document.getElementById('canvas'), CONST.WINDOW.WIDTH, CONST.WINDOW.HEIGHT);
+    rootStretcher = new Stretcher(document.getElementById('canvas'), CONST.WINDOW.WIDTH, CONST.WINDOW.HEIGHT, '#f2efe9');
     rootStretcher.hideFPS();
     var loadingBG = new createjs.Bitmap('assets/img/hk.jpg');
     var loadCanvasSkin = new BlueCanvasSkin(loadingBG);

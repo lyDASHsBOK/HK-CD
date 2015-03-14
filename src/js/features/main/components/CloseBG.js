@@ -5,8 +5,17 @@ goog.provide("hkcd.features.main.components.CloseBG");
 goog.require("org.createjs.easeljs.EaselJS");
 
 BOK.inherits(CloseBG, createjs.Container);
-function CloseBG() {
+/**
+ * @param {Player} player
+ * */
+function CloseBG(player) {
     createjs.Container.call(this);
+
+    this.player_ = player;
+    this.isMoving_ = true;
+    this.moveLeft_ = true;
+    this.playerPos_ = 0;
+    this.targetPos_ = 0;
 
     this.frontSpinNode_ = new createjs.Container();
     this.frontSpinNode_.set({x: 375, y: 670});
@@ -32,8 +41,46 @@ function CloseBG() {
     this.addChild(this.backSpinNode_);
     this.addChild(this.frontSpinNode_);
 
-    createjs.Ticker.addEventListener("tick", Delegate.create(this, this.update));
+    createjs.Ticker.addEventListener("tick", Delegate.create(this, this.update_));
 }
+
+/**
+ * @param {LandMark} landMark
+ * @param {number} pos
+ * */
+CloseBG.prototype.addLandMark = function(landMark, pos) {
+    var node = new createjs.Container();
+    node.addChild(landMark);
+    landMark.set({y:-CONST.BG.EARTH_RADIUS + 20});
+    node.set({rotation: pos * CONST.BG.STEP_LENGTH});
+    this.frontSpinNode_.addChild(node);
+
+    landMark.addEventListener('click', Delegate.create(this, function(){
+        this.dispatchEvent('markClicked');
+    }));
+};
+
+CloseBG.prototype.moveLeft = function() {
+    if(this.isMoving_)
+        return;
+
+    this.isMoving_ = true;
+    this.moveLeft_ = true;
+    this.targetPos_ = this.playerPos_ - 1;
+    this.player_.turnRight();
+    this.player_.move();
+};
+
+CloseBG.prototype.moveRight = function() {
+    if(this.isMoving_)
+        return;
+
+    this.isMoving_ = true;
+    this.moveLeft_ = false;
+    this.targetPos_ = this.playerPos_ + 1;
+    this.player_.turnLeft();
+    this.player_.move();
+};
 
 CloseBG.prototype.createImgBgSeg_ = function(imgSrc, offSet, rotation) {
     var node = new createjs.Container();
@@ -45,7 +92,18 @@ CloseBG.prototype.createImgBgSeg_ = function(imgSrc, offSet, rotation) {
     return node;
 };
 
-CloseBG.prototype.update = function() {
-    this.frontSpinNode_.rotation -= CONST.BG.FRONT_SPIN_SPEED;
-    this.backSpinNode_.rotation -= CONST.BG.BACK_SPIN_SPEED;
+CloseBG.prototype.update_ = function() {
+    if(!this.isMoving_)
+        return;
+
+    var direction = this.moveLeft_ ? -1 : 1;
+    this.frontSpinNode_.rotation += direction * CONST.BG.FRONT_SPIN_SPEED;
+    this.backSpinNode_.rotation += direction * CONST.BG.BACK_SPIN_SPEED;
+
+    if(Math.abs(this.targetPos_ * CONST.BG.STEP_LENGTH - this.frontSpinNode_.rotation) < 1) {
+        this.isMoving_ = false;
+        this.playerPos_ = this.targetPos_;
+        this.player_.stop();
+        this.dispatchEvent('moveFinished');
+    }
 };

@@ -10,10 +10,12 @@
 goog.provide('app.AssetsList');
 
 var imgList = [
-    'assets/img/hk.jpg',
-    'assets/img/guy.png',
-    'assets/img/farbg.png',
-    'assets/img/closebg.png',
+    'assets/img/arrow.png',
     'assets/img/boc.png',
-    'assets/img/LoadingImage_C.png'
+    'assets/img/closebg.png',
+    'assets/img/dust.png',
+    'assets/img/farbg.png',
+    'assets/img/femaleRun.png',
+    'assets/img/hk.jpg',
+    'assets/img/femaleRun.png'
 ];
