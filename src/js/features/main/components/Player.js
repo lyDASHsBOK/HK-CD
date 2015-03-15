@@ -7,8 +7,10 @@ goog.require("org.createjs.easeljs.EaselJS");
 
 
 BOK.inherits(Player, createjs.Container);
-function Player() {
+function Player(isGirl) {
     createjs.Container.call(this);
+
+    var playerImg = isGirl ? 'assets/img/femaleRun.png' : 'assets/img/maleRun.png';
 
     this.root_ = new createjs.Container();
     this.addChild(this.root_);
@@ -18,13 +20,14 @@ function Player() {
     this.isMoving = false;
     this.isBouncing_ = false;
     var sheet = new createjs.SpriteSheet({
-        framerate: 4,
-        images: ['assets/img/maleRun.png'],
-        frames: {width:148, height:256},
-        animations: {run:[0,6]}
+        framerate: 5,
+        images: [playerImg],
+        frames: {width:CONST.PLAYER.FRAME_WIDTH, height:CONST.PLAYER.FRAME_HEIGHT},
+        animations: {run:[0,5]}
     });
     this.anim_ = new createjs.Sprite(sheet, 'run');
-    this.anim_.x = -74;
+    this.anim_.x = -CONST.PLAYER.FRAME_WIDTH/2;
+    this.anim_.gotoAndStop(6);
     this.img_ = new createjs.Container();
     this.img_.addChild(this.anim_);
     this.root_.addChild(this.img_);
@@ -42,7 +45,7 @@ Player.prototype.turnRight = function() {
 };
 
 Player.prototype.move = function() {
-    this.anim_.gotoAndPlay(0);
+    this.anim_.gotoAndPlay('run');
     this.isMoving = true;
 };
 
@@ -57,7 +60,7 @@ Player.prototype.update = function() {
 
     var self = this;
     if(this.img_.y) {
-        EaselAnimationHelper.bounceTo(this.img_, 0, 0, CONST.PLAYER.BOUNCE_ANIM_DURATION).call(function(){
+        EaselAnimationHelper.moveTo(this.img_, 0, 0, CONST.PLAYER.BOUNCE_ANIM_DURATION).call(function(){
             self.isBouncing_ = false;
         });
     } else {

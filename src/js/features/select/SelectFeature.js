@@ -12,4 +12,6 @@ BOK.inherits(SelectFeature, MVCFeature);
  * */
 function SelectFeature(stage) {
     MVCFeature.call(this);
+
+
 }

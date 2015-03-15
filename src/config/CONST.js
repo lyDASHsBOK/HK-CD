@@ -16,6 +16,8 @@ var CONST = {
         HEIGHT: 1334
     },
     PLAYER: {
+        FRAME_WIDTH: 148,
+        FRAME_HEIGHT: 256,
         BOUNCE_ANIM_DURATION: 300,
         BOUNCE_HEIGHT: 50
     },

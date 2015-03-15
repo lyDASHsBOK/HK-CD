@@ -12,15 +12,15 @@ function CloseBG(player) {
     createjs.Container.call(this);
 
     this.player_ = player;
-    this.isMoving_ = true;
+    this.isMoving_ = false;
     this.moveLeft_ = true;
     this.playerPos_ = 0;
     this.targetPos_ = 0;
 
     this.frontSpinNode_ = new createjs.Container();
-    this.frontSpinNode_.set({x: 375, y: 670});
+    this.frontSpinNode_.set({x: 375, y: 670, alpha: 0});
     this.backSpinNode_ = new createjs.Container();
-    this.backSpinNode_.set({x: 375, y: 670});
+    this.backSpinNode_.set({x: 375, y: 670, alpha: 0});
 
     this.backSpinNode_.addChild(this.createImgBgSeg_('assets/img/farbg.png', {x: -423, y:-695}));
     this.backSpinNode_.addChild(this.createImgBgSeg_('assets/img/farbg.png', {x: -423, y:-695}, 90));
@@ -42,6 +42,12 @@ function CloseBG(player) {
     this.addChild(this.frontSpinNode_);
 
     createjs.Ticker.addEventListener("tick", Delegate.create(this, this.update_));
+
+    EaselAnimationHelper.fadeIn(this.backSpinNode_, 500).call(Delegate.create(this, function(){
+        EaselAnimationHelper.fadeIn(this.frontSpinNode_, 700).call(Delegate.create(this, function(){
+            this.dispatchEvent('sceneConstructed');
+        }));
+    }));
 }
 
 /**

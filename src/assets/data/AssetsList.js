@@ -17,5 +17,5 @@ var imgList = [
     'assets/img/farbg.png',
     'assets/img/femaleRun.png',
     'assets/img/hk.jpg',
-    'assets/img/femaleRun.png'
+    'assets/img/maleRun.png'
 ];
