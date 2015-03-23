@@ -11,7 +11,7 @@ goog.provide("root.main");
 
 goog.require("bok.easelui.Stretcher");
 goog.require("bok.apps.preloader.CanvasPreloaderApp");
-goog.require("bok.apps.preloader.components.BlueCanvasSkin");
+goog.require("bok.apps.preloader.components.MoveObjectSkin");
 goog.require("hkcd.HKCDApp");
 goog.require("app.AssetsList");
 
@@ -22,18 +22,29 @@ function start() {
     //update title
     document.head.getElementsByTagName('title')[0].innerHTML = CONST.APP.TITLE;
 
+    //setup stretcher
     rootStretcher = new Stretcher(document.getElementById('canvas'), CONST.WINDOW.WIDTH, CONST.WINDOW.HEIGHT, '#f2efe9');
     rootStretcher.hideFPS();
-    var loadingBG = new createjs.Bitmap('assets/img/hk.jpg');
-    var loadCanvasSkin = new BlueCanvasSkin(loadingBG);
+
+    //setup pre-loader
+    var loadingPlayer = new Player();
+    loadingPlayer.move();
+    var loadCanvasSkin = new MoveObjectSkin(loadingPlayer, '#2d7091');
+    loadCanvasSkin.y = 400;
     preloaderApp = new CanvasPreloaderApp(imgList, imgContainer, rootStretcher, loadCanvasSkin);
-    preloaderApp.setLoadInterval(20);
+    preloaderApp.preloadFonts(['Sosa']);
+    preloaderApp.setLoadInterval(100);
     preloaderApp.addEventListener(Event.COMPLETE, assetsLoaded);
 
     preloaderApp.start();
 }
 
 function assetsLoaded() {
+    //setup HTML ui components
+    TextPanel.init();
+    QuestionPanel.init();
+
+    //start game app
     game = new HKCDApp(rootStretcher);
     game.start();
 }

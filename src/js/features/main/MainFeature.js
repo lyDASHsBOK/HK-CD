@@ -17,8 +17,11 @@ function MainFeature(stage) {
 
     this.addMediator(new MainStageMediator(stage));
     this.addMediator(new PlayerSelectMediator(stage));
+    this.addMediator(new QuestionMediator(QuestionPanel));
 }
 
 MainFeature.Notes = new FeatureNotesCollection('MainFeature');
 MainFeature.Notes.addInternalNote('PLAYER_SELECTED');
+MainFeature.Notes.addInternalNote('QUESTION_START');
+MainFeature.Notes.addInternalNote('RETURN_TO_TAIKOO');
 

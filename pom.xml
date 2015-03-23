@@ -11,12 +11,15 @@
 
 		<resources.dir>target/resources</resources.dir>
 		<build.dir>${project.build.directory}/${project.build.finalName}</build.dir>
+        <less.file>src/less/all.less</less.file>
 
 		<common.dir>${resources.dir}/common</common.dir>
 
 		<compiled.dir>${build.dir}/compiled</compiled.dir>
 		<compiled.filename>${app.name}.js</compiled.filename>
-		
+        <compiled.css.dir>${build.dir}/compiled_css</compiled.css.dir>
+        <compiled.css.file>${compiled.css.dir}/all.css</compiled.css.file>
+
 		<script.dir>${project.build.directory}/${project.build.finalName}/compiled/raw</script.dir>
 		<script.filename>${app.name}.js</script.filename>
 
@@ -149,6 +152,17 @@
 									<footer>})();</footer>
 								</concat>
 								<delete file="${script.dir}/concat_${script.filename}" />
+
+                                <echo message="" />
+                                <echo message="--- Build CSS from LESS ---" />
+                                <mkdir dir="${compiled.css.dir}" />
+                                <exec executable="cmd" osfamily="windows" failonerror="true">
+                                    <arg line="/c lessc ${less.file} ${compiled.css.file}"/>
+                                </exec>
+                                <exec executable="lessc" osfamily="unix" failonerror="true" output="${compiled.css.file}">
+                                    <arg line=" ${less.file}"/>
+                                </exec>
+                                <echo message="--- CSS Build finish ---" />
 								
 								<echo message="" />
 								<echo message="--- Assemble final app, moving files around ---" />
@@ -156,15 +170,22 @@
 									<fileset dir="src" includes="**/*" />
 								</copy>								
 								<delete file="${build.dir}/App/${app.name}/index_dev.html"/>
-								<delete dir="${build.dir}/App/${app.name}/js/"/>								
-								<delete dir="${build.dir}/App/${app.name}/assets/data/"/>								
-								<copy todir="${build.dir}/App/${app.name}/css">
-									<fileset dir="${common.dir}/css" includes="**/*" />
-								</copy>								
-								<copy todir="${build.dir}/App/${app.name}/js">
+                                <delete dir="${build.dir}/App/${app.name}/less/"/>
+								<delete dir="${build.dir}/App/${app.name}/js/"/>
+								<delete dir="${build.dir}/App/${app.name}/assets/data/"/>
+                                <copy todir="${build.dir}/App/${app.name}/css">
+                                    <fileset dir="${common.dir}/css" includes="**/*" />
+                                </copy>
+                                <copy todir="${build.dir}/App/${app.name}/fonts">
+                                    <fileset dir="${common.dir}/fonts" includes="**/*" />
+                                </copy>
+                                <copy todir="${build.dir}/App/${app.name}/js">
 									<fileset dir="${compiled.dir}" includes="**/*" />
-								</copy>		
-								<echo message="" />
+								</copy>
+                                <copy todir="${build.dir}/App/${app.name}/css">
+                                    <fileset dir="${compiled.css.dir}" includes="**/*" />
+                                </copy>
+								<echo message="app assemble finish" />
 							</tasks>
 						</configuration>
 						<goals>

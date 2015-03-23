@@ -16,6 +16,7 @@ function CloseBG(player) {
     this.moveLeft_ = true;
     this.playerPos_ = 0;
     this.targetPos_ = 0;
+    this.landmarks_ = [];
 
     this.frontSpinNode_ = new createjs.Container();
     this.frontSpinNode_.set({x: 375, y: 670, alpha: 0});
@@ -31,12 +32,15 @@ function CloseBG(player) {
     this.earth_.graphics.beginFill(CONST.BG.EARTH_COLOR).drawCircle(0, 0, CONST.BG.EARTH_RADIUS);
     this.innerEarth_ = new createjs.Shape();
     this.innerEarth_.graphics.beginFill(CONST.BG.INNER_EARTH_COLOR).drawCircle(0, 0, CONST.BG.INNER_EARTH_RADIUS);
-    this.frontSpinNode_.addChild(this.earth_);
-    this.frontSpinNode_.addChild(this.innerEarth_);
+    this.landmarkLayer_ = new createjs.Container();
+    this.landmarkLayer_.set({scaleX:0.1, scaleY:0.1});
     this.frontSpinNode_.addChild(this.createImgBgSeg_('assets/img/closebg.png', {x: -428, y: -670}));
     this.frontSpinNode_.addChild(this.createImgBgSeg_('assets/img/closebg.png', {x: -428, y: -670}, 90));
     this.frontSpinNode_.addChild(this.createImgBgSeg_('assets/img/closebg.png', {x: -428, y: -670}, 180));
     this.frontSpinNode_.addChild(this.createImgBgSeg_('assets/img/closebg.png', {x: -428, y: -670}, 270));
+    this.frontSpinNode_.addChild(this.landmarkLayer_);
+    this.frontSpinNode_.addChild(this.earth_);
+    this.frontSpinNode_.addChild(this.innerEarth_);
 
     this.addChild(this.backSpinNode_);
     this.addChild(this.frontSpinNode_);
@@ -45,7 +49,8 @@ function CloseBG(player) {
 
     EaselAnimationHelper.fadeIn(this.backSpinNode_, 500).call(Delegate.create(this, function(){
         EaselAnimationHelper.fadeIn(this.frontSpinNode_, 700).call(Delegate.create(this, function(){
-            this.dispatchEvent('sceneConstructed');
+            createjs.Tween.get(this.landmarkLayer_).to({scaleX:1, scaleY:1}, 700)
+                .call(Delegate.create(this, this.dispatchEvent,'sceneConstructed'));
         }));
     }));
 }
@@ -59,17 +64,33 @@ CloseBG.prototype.addLandMark = function(landMark, pos) {
     node.addChild(landMark);
     landMark.set({y:-CONST.BG.EARTH_RADIUS + 20});
     node.set({rotation: pos * CONST.BG.STEP_LENGTH});
-    this.frontSpinNode_.addChild(node);
+    this.landmarkLayer_.addChild(node);
 
     landMark.addEventListener('click', Delegate.create(this, function(){
         this.dispatchEvent('markClicked');
     }));
+    this.landmarks_.push(landMark);
+};
+
+CloseBG.prototype.getCurrentLandMark = function() {
+    return this.landmarks_[this.getCurrentPos()];
+};
+
+CloseBG.prototype.getCurrentPos = function() {
+    return -this.playerPos_;
+};
+
+CloseBG.prototype.isMoving = function() {
+    return this.isMoving_;
 };
 
 CloseBG.prototype.moveLeft = function() {
     if(this.isMoving_)
         return;
 
+    BOK.each(this.landmarks_, function(item) {
+        item.hideMarks();
+    });
     this.isMoving_ = true;
     this.moveLeft_ = true;
     this.targetPos_ = this.playerPos_ - 1;
@@ -81,6 +102,9 @@ CloseBG.prototype.moveRight = function() {
     if(this.isMoving_)
         return;
 
+    BOK.each(this.landmarks_, function(item) {
+        item.hideMarks();
+    });
     this.isMoving_ = true;
     this.moveLeft_ = false;
     this.targetPos_ = this.playerPos_ + 1;
@@ -110,6 +134,8 @@ CloseBG.prototype.update_ = function() {
         this.isMoving_ = false;
         this.playerPos_ = this.targetPos_;
         this.player_.stop();
+        this.getCurrentLandMark().showMarks();
+
         this.dispatchEvent('moveFinished');
     }
 };

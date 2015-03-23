@@ -11,7 +11,6 @@ goog.provide("hkcd.HKCDApp");
 goog.require("bok.framework.App");
 
 goog.require("hkcd.features.main.MainFeature");
-goog.require("hkcd.features.select.SelectFeature");
 
 /**
  * @param{createjs.Container} stage

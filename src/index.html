@@ -3,25 +3,20 @@
 <head>
     <title></title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, target-densityDpi=device-dpi">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
 
-    <link href="css/ui/uicommon.css" rel="stylesheet"/>
-    <link href="css/ui/widgetcommon.css" rel="stylesheet"/>
-    <link href="fonts/clear-sans.css" rel="stylesheet"/>
-    <style>
-        html, body {
-            background-color: #000000;
-            width:  100%;
-            height: 100%;
-            margin: 0;
-        }
+    <link href="css/fontscommon.css" rel="stylesheet"/>
 
-        canvas {
-            position: absolute;
-            top: 1px;
-            left: 1px;
-        }
-    </style>
+    <!-- ext 3rd party lib-->
+    <script type="text/javascript" src="lib/jquery/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="lib/animate.css/AnimateHelper.js"></script>
+
+    <link href="lib/animate.css/animate.css" rel="stylesheet"/>
+
+
+    <!-- project css-->
+    <link href="css/all.css" rel="stylesheet"/>
+
     <!-- Source JS -->
     <script type="text/javascript" src="config/CONST.js"></script>
     <script type="text/javascript" src="js/HK-CD.js"></script>
@@ -29,6 +24,39 @@
 </head>
 
 <body>
-<canvas id="canvas" width="640" height="480"></canvas>
+    <canvas id="canvas" width="750" height="1334"></canvas>
+    <div id="descText" class="hide desc-text">
+        <h1></h1>
+        <div class="close-button"></div>
+        <p></p>
+    </div>
+    <div id="questionText" class="hide question-text">
+        <h1></h1>
+        <div class="close-button"></div>
+        <p></p>
+        <div class="answer">
+            <div>
+                <div class="check-button">
+                    <input type="checkbox" name="A1" id="A1"><label class="shape" for="A1"></label>
+                    <label class="text" for="A1"></label>
+                </div>
+            </div>
+            <div>
+                <div class="check-button">
+                    <input type="checkbox" name="A1" id="A2"><label class="shape" for="A2"></label>
+                    <label class="text" for="A2"></label>
+                </div>
+            </div>
+            <div>
+                <div class="check-button">
+                    <input type="checkbox" name="A1" id="A3"><label class="shape" for="A3"></label>
+                    <label class="text" for="A3"></label>
+                </div>
+            </div>
+        </div>
+        <div class="center-wrapper">
+            <div class="next-button"></div>
+        </div>
+    </div>
 </body>
 </html>

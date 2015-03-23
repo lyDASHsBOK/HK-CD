@@ -20,7 +20,7 @@ function Player(isGirl) {
     this.isMoving = false;
     this.isBouncing_ = false;
     var sheet = new createjs.SpriteSheet({
-        framerate: 5,
+        framerate: 7,
         images: [playerImg],
         frames: {width:CONST.PLAYER.FRAME_WIDTH, height:CONST.PLAYER.FRAME_HEIGHT},
         animations: {run:[0,5]}
@@ -30,10 +30,17 @@ function Player(isGirl) {
     this.anim_.gotoAndStop(6);
     this.img_ = new createjs.Container();
     this.img_.addChild(this.anim_);
+
+    this.shadow_ = new createjs.Bitmap('assets/img/shadow.png');
+    this.shadow_.set({x: -CONST.PLAYER.FRAME_WIDTH/2 + 40, y: CONST.PLAYER.FRAME_HEIGHT - 30});
+
+
     this.root_.addChild(this.img_);
     this.root_.addChild(this.dust_);
+    this.root_.addChild(this.shadow_);
 
     createjs.Ticker.addEventListener("tick", Delegate.create(this, this.update));
+    this.addEventListener('click', Delegate.create(this, this.onClicked));
 }
 
 Player.prototype.turnLeft = function() {
@@ -52,6 +59,15 @@ Player.prototype.move = function() {
 Player.prototype.stop = function() {
     this.anim_.gotoAndStop(6);
     this.isMoving = false;
+};
+
+Player.prototype.onClicked = function() {
+    if(!this.isMoving) {
+        this.move();
+        setTimeout(Delegate.create(this, function () {
+            this.stop();
+        }), 400);
+    }
 };
 
 Player.prototype.update = function() {
