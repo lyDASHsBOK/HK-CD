@@ -33,6 +33,7 @@ var imgList = [
     'assets/img/HK4.png',
     'assets/img/land-pointer.png',
     'assets/img/maleRun.png',
+    'assets/img/qrcode.jpg',
     'assets/img/shadow.png',
     'assets/img/taiku.png',
     'assets/img/xg.png'

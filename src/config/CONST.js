@@ -9,7 +9,7 @@
 
 var CONST = {
     APP: {
-        TITLE: 'HK - CD'
+        TITLE: '创意跑跑idea－成都香港创意体验游戏'
     },
     SELECT_SCREEN: {
         PLAYER_MOVE_TIME: 1200
@@ -30,14 +30,14 @@ var CONST = {
             '红星路35号',
             '西村创意园',
             '成都IBOX',
-            '?'
+            '问答'
         ],
         HK: [
             '动漫基地',
             '幻彩咏香江',
             '漫画星光大道',
             'PMQ元创方',
-            '?'
+            '问答'
         ],
         DESC_CD: [
             '成都蓝顶美术馆坐落于成都市锦江区、天府新区、龙泉三区交界处的蓝顶当代艺术园区。它依托蓝顶艺术家群落而诞生，作为一家民营非营利性机构，自2009年成立以来一直致力于推动中国当代艺术的展示、推广、交流。',
@@ -140,12 +140,24 @@ var CONST = {
             correct: [0, 1, 2]
         }
     ],
+    REWARD_MSG: {
+        title: '“2015蓉港创意设计交流季”邀请函',
+        content: '你真是创意达人！！凭此函可在“创•见”蓉港青年创意设计作品展现场领取礼物。' +
+        '<br>另外，也邀请参与“品味成都”蓉港青年学生创意设计作品大赛，秀出创意，你也能成为真正的创意设计师！' +
+        '<div class="qr-code"></div>'
+    },
     ABOUT: {
         title: '关于本应用',
         content: '<div class="new-line">美术<a class="sosa-icon">a</a>：张绿绮</div>' +
         '<div><a class="sosa-icon tab">É</a>：27112487@qq.com</div>' +
-        '<div class="new-line">制作<a class="sosa-icon">></a>：刘忻沂</div>' +
-        '<div><a class="sosa-icon tab">É</a>：L@BOKTEAM.COM</div>'
+        '<div><a class="sosa-icon tab">a</a>：徐艺鑫</div>' +
+        '<div><a class="sosa-icon tab">É</a>：995032630@qq.com</div>' +
+        '<div class="new-line">开发<a class="sosa-icon">></a>：刘忻沂</div>' +
+        '<div><a class="sosa-icon tab">É</a>：L@BOKTEAM.COM</div>'+
+        '<div class="new-line">制作人<a class="sosa-icon">Ü</a>：冯煜</div>' +
+        '<div><a class="sosa-icon tab">É</a>：344967569@qq.com</div>' +
+        '<div><a class="sosa-icon tab">Ü</a>：岳安邦</div>' +
+        '<div class="support-unit"><h3>成都市动漫网络文化行业协会</h3></div>'
     }
 
 

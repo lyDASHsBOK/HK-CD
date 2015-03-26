@@ -19,7 +19,7 @@ function LandMark(name) {
     node.addChild(this.img_);
 
     this.pointer_ = new createjs.Bitmap(imgContainer['assets/img/land-pointer.png']);
-    this.pointer_.set({x: 55, y: -400});
+    this.pointer_.set({x: -20, y: -450, scaleX:1.6, scaleY:1.6});
 
     this.notice_ = new TapNotice();
     this.notice_.set({x: 50, y:-150});
@@ -59,8 +59,8 @@ LandMark.prototype.hideTapNotice = function() {
 
 LandMark.prototype.update = function() {
     if(this.pointer_.y < -450)
-        EaselAnimationHelper.moveTo(this.pointer_, 0, -450, 500).call(Delegate.create(this, this.update));
+        EaselAnimationHelper.moveTo(this.pointer_, -20, -450, 500).call(Delegate.create(this, this.update));
     else {
-        EaselAnimationHelper.moveTo(this.pointer_, 0, -500, 500).call(Delegate.create(this, this.update));
+        EaselAnimationHelper.moveTo(this.pointer_, -20, -500, 500).call(Delegate.create(this, this.update));
     }
 };

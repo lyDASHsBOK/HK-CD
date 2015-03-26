@@ -58,12 +58,29 @@ canvas {
   background: rgba(255, 255, 255, 0.9);
   border-radius: 10px;
 }
-.question-text p div.new-line {
+.question-text .panel-content {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+}
+.question-text p .new-line {
   margin-top: 10px;
 }
 .question-text p .tab {
   margin-top: -15px;
   margin-left: 32px;
+}
+.question-text p .qr-code {
+  width: 80%;
+  height: 80%;
+  position: absolute;
+  background: url('../assets/img/qrcode.jpg') no-repeat;
+  background-size: 100%;
+  margin: 0 auto;
+}
+.question-text p .support-unit {
+  margin: 20px auto;
+  width: 245px;
 }
 .question-text .answer > div {
   float: left;

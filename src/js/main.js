@@ -9,6 +9,7 @@
 
 goog.provide("root.main");
 
+goog.require("org.createjs.easeljs.SoundJS");
 goog.require("bok.easelui.Stretcher");
 goog.require("bok.apps.preloader.CanvasPreloaderApp");
 goog.require("bok.apps.preloader.components.MoveObjectSkin");
@@ -37,6 +38,10 @@ function start() {
     preloaderApp.addEventListener(Event.COMPLETE, assetsLoaded);
 
     preloaderApp.start();
+
+    //reg sound assets
+    createjs.Sound.registerSound("assets/audio/cd-bg.mp3", "cd");
+    createjs.Sound.registerSound("assets/audio/hk-bg.mp3", "hk");
 }
 
 function assetsLoaded() {

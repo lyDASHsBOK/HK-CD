@@ -17,6 +17,7 @@ function PlayerSelectMediator(stage) {
     this.bg_ = new createjs.Bitmap('assets/img/taiku.png');
     this.selectScreen_.addChild(this.bg_);
 
+    this.charLayer_ = new createjs.Container();
     this.uiLayer_ = new createjs.Container();
     this.uiLayer_.set({y: 100});
 
@@ -48,10 +49,18 @@ function PlayerSelectMediator(stage) {
     this.boy_ = new Player(false);
     this.boy_.set({x:200, y: 800});
     this.boy_.addEventListener('click', Delegate.create(this, this.onPlayerSelected, this.boy_));
+    this.charLayer_.addChild(this.boy_);
+    var noticeBoy = new TapNotice();
+    noticeBoy.set({x:200, y: 880});
+    this.uiLayer_.addChild(noticeBoy);
     this.girl_ = new Player(true);
     this.girl_.set({x: 550, y: 800});
     this.girl_.turnLeft();
     this.girl_.addEventListener('click', Delegate.create(this, this.onPlayerSelected, this.girl_));
+    this.charLayer_.addChild(this.girl_);
+    var noticeGirl = new TapNotice();
+    noticeGirl.set({x:550, y: 880});
+    this.uiLayer_.addChild(noticeGirl);
 
     this.selectBoy_ = new SelectDot();
     this.selectBoy_.set({x: 200, y: 950});
@@ -80,8 +89,7 @@ function PlayerSelectMediator(stage) {
     this.uiLayer_.addChild(this.moveHK_);
 
 
-    this.selectScreen_.addChild(this.boy_);
-    this.selectScreen_.addChild(this.girl_);
+    this.selectScreen_.addChild(this.charLayer_);
     this.selectScreen_.addChild(this.uiLayer_);
 
     /** @type {Player}*/
@@ -98,8 +106,9 @@ PlayerSelectMediator.prototype.declareInterestedNotifications = function() {
 
 
 PlayerSelectMediator.prototype.onReturned = function() {
-    this.selectScreen_.addChild(this.boy_);
-    this.selectScreen_.addChild(this.girl_);
+    createjs.Sound.stop();
+    this.charLayer_.addChild(this.boy_);
+    this.charLayer_.addChild(this.girl_);
 
     this.selectScreen_.visible = true;
 
@@ -124,6 +133,7 @@ PlayerSelectMediator.prototype.onReturned = function() {
 };
 
 PlayerSelectMediator.prototype.onLocationSelected = function(selected) {
+    createjs.Sound.play(selected, {loop: -1});
     this.start(selected);
 };
 
