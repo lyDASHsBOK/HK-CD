@@ -13,7 +13,7 @@ function LandMark(name) {
         this.img_ = new createjs.Bitmap(imgContainer['assets/img/'+name+'.png']);
     else
         this.img_ = new createjs.Bitmap(imgContainer['assets/img/boc.png']);
-    this.img_.set({x:-this.img_.image.width/2, y:-this.img_.image.height + (name?15:-25)});
+    this.img_.set({x:-this.img_.image.width/2, y:-this.img_.image.height + 25});
     var node = new createjs.Container();
     node.set({scaleX:1.3, scaleY:1.3});
     node.addChild(this.img_);
@@ -24,12 +24,26 @@ function LandMark(name) {
     this.notice_ = new TapNotice();
     this.notice_.set({x: 50, y:-150});
 
+    this.textLayer_ = new createjs.Container();
+    this.textLayer_.set({y:-480});
+    this.textName_ = new createjs.Text("Person Name", "60px robotobold", '#FFF');
+    this.textLayer_.addChild(this.textName_);
+    this.textCompany_ = new createjs.Text("Company Name", "40px robotobold", '#FFF');
+    this.textCompany_.set({x:50, y:60, alpha:0.5});
+    this.textLayer_.addChild(this.textCompany_);
+
     this.addChild(node);
-    this.addChild(this.notice_);
-    this.addChild(this.pointer_);
+    this.addChild(this.textLayer_);
+    //this.addChild(this.notice_);
+    //this.addChild(this.pointer_);
 
     this.update();
 }
+
+LandMark.prototype.renderName = function (obj) {
+    this.textName_.text = obj.name;
+    this.textCompany_.text = obj.company;
+};
 
 
 

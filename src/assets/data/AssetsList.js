@@ -36,5 +36,9 @@ var imgList = [
     'assets/img/qrcode.jpg',
     'assets/img/shadow.png',
     'assets/img/taiku.png',
+    'assets/img/baozhu.png',
+    'assets/img/fw1.png',
+    'assets/img/fw2.png',
+    'assets/img/fw3.png',
     'assets/img/xg.png'
 ];

@@ -32,10 +32,11 @@ MainStageMediator.prototype.init = function(player, place) {
     this.btmMap_.addDot(this.getPlaceName(3));
     this.btmMap_.addDot(this.getPlaceName(4), true);
     this.btmMap_.selectPlace(0);
+    //this.stage_.addChild(this.btmMap_);
 
     this.player_ = player;
     this.bg_ = new CloseBG(this.player_);
-    this.bg_.set({y:CONST.BG.Y});
+    this.bg_.set({y:CONST.BG.Y, x: CONST.BG.X});
 
     this.btnGoLeft_ = new MoveButton(true);
     this.btnGoLeft_.set({x: 650, y: 600});
@@ -46,9 +47,9 @@ MainStageMediator.prototype.init = function(player, place) {
 
     this.btnBack_ = new createjs.Bitmap('assets/img/btn-back.png');
     this.btnBack_.set({x:690, y: 20});
-    this.uiLayer_.addChild(this.btnBack_);
+    //this.uiLayer_.addChild(this.btnBack_);
     this.btnAbout_ = new AboutButton();
-    this.uiLayer_.addChild(this.btnAbout_);
+    //this.uiLayer_.addChild(this.btnAbout_);
 
     var landmarkNameBase = this.isAtChengDu() ? 'CD' : 'HK';
     for(var i=0; i<4; ++i)
@@ -57,17 +58,55 @@ MainStageMediator.prototype.init = function(player, place) {
 
     this.stage_.addChild(this.bg_);
     this.stage_.addChild(this.player_);
-    this.stage_.addChild(this.uiLayer_);
-    this.stage_.addChild(this.btmMap_);
+    //this.stage_.addChild(this.uiLayer_);
+
+    var bz = new createjs.Bitmap(imgContainer['assets/img/baozhu.png']);
+    bz.set({x:-237, y:-207});
+    this.baozhu_ = new createjs.Container();
+    this.baozhu_.addChild(bz);
+    this.baozhu_.set({scaleX:0, scaleY:0, x:637, y: 987});
+    this.stage_.addChild(this.baozhu_);
+
+    //fireworks
+    this.fireworks = new Fireworks();
+    this.stage_.addChild(this.fireworks);
+
+    //
+    this.startText = new createjs.Text("START", "100px robotobold", '#FFF');
+    this.startText.set({x:550, y:1130});
+    this.stage_.addChild(this.startText);
+
 
     this.btnGoLeft_.addEventListener('click', Delegate.create(this, this.onLeftClick));
     this.btnGoRight_.addEventListener('click', Delegate.create(this, this.onRightClick));
     this.btnBack_.addEventListener('click', Delegate.create(this, this.onBackClick));
     this.bg_.addEventListener('moveFinished', Delegate.create(this, this.onMovePlayerFinished));
-    this.bg_.addEventListener('markClicked', Delegate.create(this, this.landMarkClicked));
+    //this.bg_.addEventListener('markClicked', Delegate.create(this, this.landMarkClicked));
     this.bg_.addEventListener('sceneConstructed', Delegate.create(this, this.bgConstructed));
+    this.bg_.addEventListener('click', Delegate.create(this, this.onBGClicked));
 };
 
+MainStageMediator.prototype.showBaozhu = function() {
+    createjs.Tween.get(this.baozhu_).wait(1500).to({scaleX:1, scaleY:1}, 700, createjs.Ease.bounceOut);
+};
+
+MainStageMediator.prototype.hideBaozhu = function() {
+    this.baozhu_.set({scaleX:0, scaleY:0});
+};
+
+
+MainStageMediator.prototype.onBGClicked = function(){
+    if(this.isZoomin_) {
+        this.fireworks.stop();
+        this.hideBaozhu();
+        this.startText.visible = true;
+        this.zoomOut();
+    }
+    else {
+        this.startText.visible = false;
+        this.bg_.moveLeft();
+    }
+};
 
 /**
  * @override
@@ -129,7 +168,10 @@ MainStageMediator.prototype.landMarkClicked = function(e) {
  * Event Handler
  * */
 MainStageMediator.prototype.onMovePlayerFinished = function(e) {
-    this.showUI();
+    BOK.findAndRemove(CLIENT_NAMES, this.bg_.winner);
+    this.showBaozhu();
+    this.fireworks.play();
+    this.zoomIn();
 };
 
 /**
@@ -171,23 +213,16 @@ MainStageMediator.prototype.zoomIn = function() {
 
     this.isZooming_ = true;
     this.isZoomin_ = true;
-    this.hideUI();
-    self.bg_.getCurrentLandMark().hidePointer();
-    TextPanel.showPanel(this.getPlaceName(playerPos));
-    createjs.Tween.get(this.stage_).to({scaleX: 1.5, scaleY:1.5, y: -200, x: -300}, 1000, createjs.Ease.cubicOut).call(function(){
+    createjs.Tween.get(this.stage_).wait(1000).to({scaleX: 1.5, scaleY:1.5, y: -200, x: -300}, 1000, createjs.Ease.cubicOut).call(function(){
         self.isZooming_ = false;
-        TextPanel.populateContent(self.getPlaceDesc(playerPos));
     });
 };
 
 MainStageMediator.prototype.zoomOut = function() {
     this.isZooming_ = true;
     this.isZoomin_ = false;
-    this.showUI();
-    TextPanel.hide();
     var self = this;
     createjs.Tween.get(this.stage_).to({scaleX: 1, scaleY:1, y: 0, x: 0}, 1000, createjs.Ease.cubicOut).call(function(){
-        self.bg_.getCurrentLandMark().showPointer();
         self.isZooming_ = false;
     });
 };

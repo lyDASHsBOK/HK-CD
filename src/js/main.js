@@ -24,7 +24,7 @@ function start() {
     document.head.getElementsByTagName('title')[0].innerHTML = CONST.APP.TITLE;
 
     //setup stretcher
-    rootStretcher = new Stretcher(document.getElementById('canvas'), CONST.WINDOW.WIDTH, CONST.WINDOW.HEIGHT, '#f2efe9');
+    rootStretcher = new Stretcher(document.getElementById('canvas'), CONST.WINDOW.WIDTH, CONST.WINDOW.HEIGHT, '#26bab4');
     rootStretcher.hideFPS();
 
     //setup pre-loader
@@ -33,15 +33,15 @@ function start() {
     var loadCanvasSkin = new MoveObjectSkin(loadingPlayer, '#2d7091');
     loadCanvasSkin.y = 400;
     preloaderApp = new CanvasPreloaderApp(imgList, imgContainer, rootStretcher, loadCanvasSkin);
-    preloaderApp.preloadFonts(['Sosa']);
+    preloaderApp.preloadFonts(['Sosa', 'robotobold']);
     preloaderApp.setLoadInterval(100);
     preloaderApp.addEventListener(Event.COMPLETE, assetsLoaded);
 
     preloaderApp.start();
 
     //reg sound assets
-    createjs.Sound.registerSound("assets/audio/cd-bg.mp3", "cd");
-    createjs.Sound.registerSound("assets/audio/hk-bg.mp3", "hk");
+    //createjs.Sound.registerSound("assets/audio/cd-bg.mp3", "cd");
+    //createjs.Sound.registerSound("assets/audio/hk-bg.mp3", "hk");
 }
 
 function assetsLoaded() {

@@ -9,13 +9,13 @@
 
 var CONST = {
     APP: {
-        TITLE: '创意跑跑idea－成都香港创意体验游戏'
+        TITLE: 'FTS Lucky Draw'
     },
     SELECT_SCREEN: {
         PLAYER_MOVE_TIME: 1200
     },
     WINDOW: {
-        WIDTH: 750,
+        WIDTH: 1780,
         HEIGHT: 1334
     },
     PLAYER: {
@@ -54,13 +54,14 @@ var CONST = {
     },
     BG: {
         Y: 845,
+        X: 300,
         EARTH_COLOR: 'rgba(83,121,79,1)',
         EARTH_RADIUS: 584,
         INNER_EARTH_COLOR: 'rgba(34,66,84,1)',
         INNER_EARTH_RADIUS: 470,
         FRONT_SPIN_SPEED: 0.8,
         BACK_SPIN_SPEED: 0.2,
-        STEP_LENGTH: 70
+        STEP_LENGTH: 72
     },
 
     DESC: [

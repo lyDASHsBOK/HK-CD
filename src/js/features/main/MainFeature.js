@@ -15,9 +15,12 @@ BOK.inherits(MainFeature, MVCFeature);
 function MainFeature(stage) {
     MVCFeature.call(this);
 
+    var selectMed = new PlayerSelectMediator(stage);
     this.addMediator(new MainStageMediator(stage));
-    this.addMediator(new PlayerSelectMediator(stage));
+    this.addMediator(selectMed);
     this.addMediator(new QuestionMediator(QuestionPanel));
+
+    selectMed.start('cd');
 }
 
 MainFeature.Notes = new FeatureNotesCollection('MainFeature');

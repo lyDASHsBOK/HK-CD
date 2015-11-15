@@ -159,7 +159,7 @@ PlayerSelectMediator.prototype.start = function(place) {
     }
 
     this.currentSelected_.move();
-    EaselAnimationHelper.moveTo(this.currentSelected_, 300, 760, CONST.SELECT_SCREEN.PLAYER_MOVE_TIME, createjs.Ease.linear).call(Delegate.create(this, function(){
+    EaselAnimationHelper.moveTo(this.currentSelected_, 300 + CONST.BG.X, -85 + CONST.BG.Y, CONST.SELECT_SCREEN.PLAYER_MOVE_TIME, createjs.Ease.linear).call(Delegate.create(this, function(){
         this.currentSelected_.stop();
         this.currentSelected_.turnRight();
         this.selectScreen_.visible = false;
